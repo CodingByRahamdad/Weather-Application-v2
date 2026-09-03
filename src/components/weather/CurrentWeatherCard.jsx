@@ -32,7 +32,12 @@ export function CurrentWeatherCard({ bundle, onRefresh, refreshing = false }) {
   };
 
   const copyLink = async () => {
-    const url = `${window.location.origin}${window.location.pathname}#/weather?lat=${location.latitude}&lon=${location.longitude}&name=${encodeURIComponent(location.name)}`;
+    const params = new URLSearchParams({
+      lat: location.latitude.toFixed(4),
+      lon: location.longitude.toFixed(4),
+      name: location.name,
+    });
+    const url = `${window.location.origin}/weather?${params.toString()}`;
     try {
       await navigator.clipboard.writeText(url);
       toast({ kind: "success", title: "Link copied" });

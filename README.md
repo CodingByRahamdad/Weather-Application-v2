@@ -13,7 +13,7 @@ Core:
 - Search history (last 5, deduped, clearable).
 - Settings: temperature / wind / precipitation units, theme (light / dark / auto),
   reduce motion, high contrast, forecast range, dashboard toggles.
-- Client-side routing via URL hash; deep links via `#/weather?lat=…&lon=…&name=…`.
+- Client-side routing via React Router; deep links via `/weather?lat=…&lon=…&name=…`.
 - LocalStorage persistence with corruption-safe reads.
 
 Bonus:
@@ -55,13 +55,13 @@ The service layer transforms columnar Open-Meteo responses (`time[]`, `temperatu
 into application-specific objects (see the transformation logic in
 `src/services/weatherService.js` and `src/services/geocodingService.js`).
 
-## Routes (hash-based)
+## Routes
 
-- `#/weather` – dashboard (main view)
-- `#/favorites` – saved locations
-- `#/history` – recent searches
-- `#/statistics` – aggregate statistics + charts
-- `#/settings` – preferences
+- `/weather` – dashboard (main view)
+- `/favorites` – saved locations
+- `/history` – recent searches
+- `/statistics` – aggregate statistics + charts
+- `/settings` – preferences
 
 ## LocalStorage keys
 
