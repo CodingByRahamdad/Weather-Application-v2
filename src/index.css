@@ -1,0 +1,129 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Softer geometry for any remaining Tailwind radius utilities. */
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.125rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 1.75rem;
+
+  --color-ink-950: #0b0f14;
+  --color-ink-900: #121820;
+  --color-ink-800: #1a222c;
+  --color-ink-700: #1f2933;
+  --color-ink-600: #2a3442;
+  --color-ink-500: #3a4756;
+  --color-ink-400: #6d7785;
+  --color-ink-300: #a3adb7;
+  --color-ink-200: #cbd3db;
+  --color-ink-100: #e6ebef;
+  --color-ink-50: #f2f5f7;
+
+  --color-accent-300: #7ff2df;
+  --color-accent-400: #5eead4;
+  --color-accent-500: #2dd4bf;
+  --color-accent-600: #14b8a6;
+
+  --color-sky-accent: #60a5fa;
+
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
+}
+
+@layer base {
+  html {
+    /* A subtle 6.25% type reduction keeps the existing hierarchy intact. */
+    font-size: 15px;
+  }
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply font-sans antialiased text-ink-900;
+    background-color: #EFF2F7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .dark body {
+    @apply bg-ink-950 text-ink-50;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-ink-600) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--color-ink-200);
+    border-radius: 8px;
+  }
+  .dark *::-webkit-scrollbar-thumb {
+    background: var(--color-ink-600);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent-400);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-serif);
+    font-feature-settings: "ss01", "ss02";
+    letter-spacing: -0.01em;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  /* Slim, always-visible horizontal scrollbar used by scrollable card rows. */
+  .thin-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-ink-300) transparent;
+  }
+  .thin-scrollbar::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+  .thin-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 999px;
+  }
+  .thin-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-ink-300);
+    border-radius: 999px;
+  }
+  .thin-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ink-400);
+  }
+  .dark .thin-scrollbar {
+    scrollbar-color: var(--color-ink-600) transparent;
+  }
+  .dark .thin-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-ink-600);
+  }
+  .dark .thin-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ink-500);
+  }
+}
+
+

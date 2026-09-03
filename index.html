@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Halcyon · Weather Intelligence Dashboard</title>
+    <script>
+      (function () {
+        try {
+          var raw = localStorage.getItem("halcyon.settings.v1");
+          var settings = raw ? JSON.parse(raw) : null;
+          var theme = (settings && settings.theme) || "dark";
+          var prefersDark =
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var dark = theme === "dark" || (theme === "auto" && prefersDark);
+          var root = document.documentElement;
+          if (dark) root.classList.add("dark");
+          if (settings && settings.highContrast) root.classList.add("high-contrast");
+          if (settings && settings.reduceMotion) root.classList.add("reduce-motion");
+        } catch (e) {
+          /* if localStorage is unavailable/corrupted, fall back to default light paint */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
