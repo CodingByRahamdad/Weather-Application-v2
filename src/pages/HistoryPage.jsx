@@ -1,10 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import { Clock, MapPin, Trash2, X } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { Card } from "../components/common/Card";
 import { Button } from "../components/common/Button";
 import { EmptyState } from "../components/common/EmptyState";
 
-export function HistoryPage({ navigate }) {
+export function HistoryPage() {
+  const navigate = useNavigate();
   const { history, clearHistory, removeHistory, selectLocation, toast } = useApp();
 
   return (

@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ArrowUpDown, LayoutGrid, Plus, Star } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { FavoriteCard } from "../components/favorites/FavoriteCard";
@@ -7,7 +8,8 @@ import { EmptyState } from "../components/common/EmptyState";
 import { Button } from "../components/common/Button";
 import { cn } from "../utils/cn";
 
-export function FavoritesPage({ navigate }) {
+export function FavoritesPage() {
+  const navigate = useNavigate();
   const { favorites, selectedLocation, selectLocation, removeFavorite, toast } = useApp();
   const [sort, setSort] = useState("added");
   const [view, setView] = useState("grid");

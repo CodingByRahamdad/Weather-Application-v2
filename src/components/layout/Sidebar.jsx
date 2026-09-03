@@ -1,3 +1,4 @@
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Cloud,
   Home,
@@ -20,7 +21,9 @@ const NAV = [
   { path: "/settings", label: "Settings", icon: SettingsIcon },
 ];
 
-export function Sidebar({ currentPath, onNavigate, open, onClose, collapsed, onToggleCollapsed }) {
+export function Sidebar({ open, onClose, collapsed, onToggleCollapsed }) {
+  const location = useLocation();
+  const navigate = useNavigate();
   const { favorites } = useApp();
 
   return (
@@ -92,14 +95,14 @@ export function Sidebar({ currentPath, onNavigate, open, onClose, collapsed, onT
 
         <nav className="mt-8 flex flex-1 flex-col gap-1">
           {NAV.map((item) => {
-            const active = currentPath === item.path;
+            const active = location.pathname === item.path;
             const Icon = item.icon;
             return (
               <button
                 key={item.path}
                 type="button"
                 onClick={() => {
-                  onNavigate(item.path);
+                  navigate(item.path);
                   onClose();
                 }}
                 title={collapsed ? item.label : undefined}
