@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import { AppProvider, useApp } from "./context/AppContext";
-import { useHashRoute } from "./hooks/useHashRoute";
 import { Sidebar } from "./components/layout/Sidebar";
 import { Header } from "./components/layout/Header";
 import { Toasts } from "./components/common/Toasts";
@@ -11,18 +11,19 @@ import { StatisticsPage } from "./pages/StatisticsPage";
 import { SettingsPage } from "./pages/SettingsPage";
 
 function AppShell() {
-  const { route, navigate } = useHashRoute();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { selectLocation } = useApp();
   const [menuOpen, setMenuOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     setMenuOpen(false);
-  }, [route.path]);
+  }, [location.pathname]);
 
   const onSelectLocation = (loc) => {
     selectLocation(loc);
-    if (route.path !== "/weather") navigate("/weather");
+    if (location.pathname !== "/weather") navigate("/weather");
   };
 
   const toggleSidebar = () => {
@@ -37,8 +38,6 @@ function AppShell() {
     <div className="min-h-screen bg-[#EFF2F7] text-ink-900 dark:bg-ink-950 dark:text-ink-50">
       <div className="mx-auto flex max-w-[1600px]">
         <Sidebar
-          currentPath={route.path}
-          onNavigate={navigate}
           open={menuOpen}
           onClose={() => setMenuOpen(false)}
           collapsed={sidebarCollapsed}
@@ -63,7 +62,14 @@ function AppShell() {
               </h1>
             </div>
 
-            {renderRoute(route.path, route.query, navigate)}
+            <Routes>
+              <Route path="/weather" element={<WeatherPage />} />
+              <Route path="/favorites" element={<FavoritesPage />} />
+              <Route path="/history" element={<HistoryPage />} />
+              <Route path="/statistics" element={<StatisticsPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/" element={<Navigate to="/weather" />} />
+            </Routes>
           </main>
 
           <footer className="border-t border-[#E1E6ED]/50 px-4 py-4 text-xs text-ink-400 sm:px-6 dark:border-ink-600/30">
@@ -80,13 +86,7 @@ function AppShell() {
   );
 }
 
-function renderRoute(path, query, navigate) {
-  if (path === "/favorites") return <FavoritesPage navigate={navigate} />;
-  if (path === "/history") return <HistoryPage navigate={navigate} />;
-  if (path === "/statistics") return <StatisticsPage navigate={navigate} />;
-  if (path === "/settings") return <SettingsPage />;
-  return <WeatherPage urlParams={query} navigate={navigate} />;
-}
+
 
 function greetingFor() {
   const h = new Date().getHours();
@@ -97,8 +97,10 @@ function greetingFor() {
 
 export default function App() {
   return (
-    <AppProvider>
-      <AppShell />
-    </AppProvider>
+    <BrowserRouter>
+      <AppProvider>
+        <AppShell />
+      </AppProvider>
+    </BrowserRouter>
   );
 }

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { Compass, Locate, LocateFixed } from "lucide-react";
 import { EmptyState } from "../components/common/EmptyState";
 import { ErrorMessage } from "../components/common/ErrorMessage";
@@ -17,7 +18,8 @@ import { useWeather } from "../hooks/useWeather";
 import { useGeolocation } from "../hooks/useGeolocation";
 import { Button } from "../components/common/Button";
 
-export function WeatherPage({ urlParams, navigate }) {
+export function WeatherPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { selectedLocation, selectLocation, settings, toast } = useApp();
 
   // URL → location on first render.
@@ -25,14 +27,14 @@ export function WeatherPage({ urlParams, navigate }) {
   useEffect(() => {
     if (urlAppliedRef.current) return;
     urlAppliedRef.current = true;
-    const lat = parseFloat(urlParams.get("lat") ?? "");
-    const lon = parseFloat(urlParams.get("lon") ?? "");
-    const name = urlParams.get("name");
+    const lat = parseFloat(searchParams.get("lat") ?? "");
+    const lon = parseFloat(searchParams.get("lon") ?? "");
+    const name = searchParams.get("name");
     if (!Number.isNaN(lat) && !Number.isNaN(lon)) {
       const loc = {
         id: `${lat.toFixed(4)},${lon.toFixed(4)}`,
         name: name || "Selected location",
-        country: urlParams.get("country") ?? "",
+        country: searchParams.get("country") ?? "",
         latitude: lat,
         longitude: lon,
       };
@@ -44,7 +46,7 @@ export function WeatherPage({ urlParams, navigate }) {
   // Keep URL in sync with selection.
   useEffect(() => {
     if (!selectedLocation) return;
-    navigate("/weather", {
+    setSearchParams({
       lat: selectedLocation.latitude.toFixed(4),
       lon: selectedLocation.longitude.toFixed(4),
       name: selectedLocation.name,

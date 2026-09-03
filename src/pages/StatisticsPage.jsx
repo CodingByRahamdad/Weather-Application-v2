@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { LayoutGrid } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { useWeather } from "../hooks/useWeather";
@@ -8,7 +9,8 @@ import { EmptyState } from "../components/common/EmptyState";
 import { WeatherSkeleton } from "../components/weather/WeatherSkeleton";
 import { Button } from "../components/common/Button";
 
-export function StatisticsPage({ navigate }) {
+export function StatisticsPage() {
+  const navigate = useNavigate();
   const { selectedLocation, settings } = useApp();
   const { data, loading } = useWeather(selectedLocation, settings.autoRefreshMinutes);
 
