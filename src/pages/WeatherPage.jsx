@@ -94,14 +94,16 @@ export function WeatherPage() {
     );
   }
 
+  if (loading && !currentBundle) {
+    return <WeatherSkeleton />;
+  }
+
   return (
     <div className="space-y-4">
       {/* Row 1: Current weather + Analytics */}
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
         <div className="flex xl:col-span-2">
-          {loading && !currentBundle ? (
-            <WeatherSkeleton />
-          ) : error && !currentBundle ? (
+          {error && !currentBundle ? (
             <ErrorMessage message={error} onRetry={refresh} />
           ) : currentBundle ? (
             <CurrentWeatherCard bundle={currentBundle} onRefresh={refresh} refreshing={loading} />

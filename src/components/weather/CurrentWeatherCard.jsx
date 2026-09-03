@@ -58,7 +58,7 @@ export function CurrentWeatherCard({ bundle, onRefresh, refreshing = false }) {
               {location.name}
             </h2>
             <p className="text-sm text-ink-500 dark:text-ink-300">
-              {[location.admin1, location.country].filter(Boolean).join(" Â· ") || "â€”"}
+              {[location.admin1, location.country].filter(Boolean).join(" - ") || "â€”"}
             </p>
           </div>
         </div>
