@@ -149,6 +149,33 @@ export function SettingsPage() {
       <hr className="border-[#E1E6ED]/50 dark:border-ink-600/30" />
 
       <Section
+        title="Auto refresh"
+        description="Keep the selected location's weather up to date while this dashboard is open."
+      >
+        <SettingRow
+          label="Refresh weather"
+          description={
+            Number(draft.autoRefreshMinutes) > 0
+              ? `Automatically refreshes every ${draft.autoRefreshMinutes} minutes.`
+              : "Automatic refresh is off."
+          }
+        >
+          <SegmentedControl
+            value={Number(draft.autoRefreshMinutes) || 0}
+            onChange={(v) => setDraft((d) => ({ ...d, autoRefreshMinutes: Number(v) }))}
+            options={[
+              { value: 0, label: "Off" },
+              { value: 5, label: "5", sublabel: "min" },
+              { value: 10, label: "10", sublabel: "min" },
+              { value: 15, label: "15", sublabel: "min" },
+            ]}
+            ariaLabel="Automatic weather refresh interval"
+          />
+        </SettingRow>
+      </Section>
+
+      <hr className="border-[#E1E6ED]/50 dark:border-ink-600/30" />
+      <Section
         title="Dashboard"
         description="Choose what shows up on your main weather view, and how much detail you want."
       >

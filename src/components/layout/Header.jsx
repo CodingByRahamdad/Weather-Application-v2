@@ -58,7 +58,7 @@ export function Header({ onSelectLocation, onToggleSidebar }) {
         </div>
 
         {/* Search + mobile theme toggle */}
-        <div className="flex min-w-0 flex-1 items-center gap-2">
+        <div className="flex min-w-0 flex-1 items-center gap-2 lg:ml-4">
           <div className="min-w-0 flex-1">
             <SearchBar onSelect={onSelectLocation} />
           </div>

@@ -9,8 +9,8 @@ import { WeatherSkeleton } from "../components/weather/WeatherSkeleton";
 import { Button } from "../components/common/Button";
 
 export function StatisticsPage({ navigate }) {
-  const { selectedLocation } = useApp();
-  const { data, loading } = useWeather(selectedLocation);
+  const { selectedLocation, settings } = useApp();
+  const { data, loading } = useWeather(selectedLocation, settings.autoRefreshMinutes);
 
   return (
     <div className="space-y-6">

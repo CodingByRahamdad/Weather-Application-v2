@@ -99,7 +99,6 @@ export function CurrentWeatherCard({ bundle, onRefresh, refreshing = false }) {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* WeatherIcon rendered with teal override for cloud/main shape */}
           <WeatherIcon code={current.weatherCode} isDay={current.isDay} size="xl" />
           <div>
             <p className="text-lg font-semibold text-ink-900 dark:text-ink-50">{desc.label}</p>
@@ -160,43 +159,6 @@ export function CurrentWeatherCard({ bundle, onRefresh, refreshing = false }) {
         </div>
       </div>
     </Card>
-  );
-}
-
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   Teal cloud/sky icon for the current weather slot.
-   In light mode the main cloud shape is painted in
-   the app's teal accent colour exactly as shown in
-   the reference image. Dark mode keeps the original
-   muted-slate colour so it reads well on dark cards.
-   We use a CSS hue-rotate + saturate filter trick on
-   the wrapper so every SVG shape in the icon shifts
-   from slate-grey â†’ teal without touching the SVG.
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-function TealWeatherIcon({ code, isDay }) {
-  return (
-    <div className="relative h-14 w-14 flex items-center justify-center">
-      {/*
-        Light mode layer â€” teal CSS filter turns the SVG shapes from slate-grey
-        to teal, matching the reference image cloud colour.
-        Hidden in dark mode via 'dark:hidden'.
-      */}
-      <span
-        className="block h-full w-full dark:hidden"
-        style={{
-          filter:
-            "brightness(0) saturate(100%) invert(72%) sepia(52%) saturate(500%) hue-rotate(120deg) brightness(95%)",
-        }}
-      >
-        <WeatherIcon code={code} isDay={isDay} size="xl" />
-      </span>
-      {/*
-        Dark mode layer â€” natural slate colours, shown only in dark mode.
-      */}
-      <span className="hidden h-full w-full dark:block">
-        <WeatherIcon code={code} isDay={isDay} size="xl" />
-      </span>
-    </div>
   );
 }
 

@@ -22,16 +22,3 @@ export async function searchLocations(query, signal, count = 8) {
     population: r.population,
   }));
 }
-
-// Simple coordinate-based fallback used after geolocation.
-export async function reverseLookup(lat, lon) {
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  return {
-    id: `${lat.toFixed(4)},${lon.toFixed(4)}`,
-    name: "My location",
-    country: "",
-    latitude: lat,
-    longitude: lon,
-    timezone,
-  };
-}

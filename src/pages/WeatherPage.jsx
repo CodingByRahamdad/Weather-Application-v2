@@ -52,7 +52,7 @@ export function WeatherPage({ urlParams, navigate }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLocation?.id]);
 
-  const { data, loading, error, refresh } = useWeather(selectedLocation);
+  const { data, loading, error, refresh } = useWeather(selectedLocation, settings.autoRefreshMinutes);
   const geo = useGeolocation();
 
   const onUseMyLocation = async () => {

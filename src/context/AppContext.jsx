@@ -19,6 +19,7 @@ const DEFAULT_SETTINGS = {
   forecastRange: 7,
   showChart: true,
   showStatistics: true,
+  autoRefreshMinutes: 0,
 };
 
 const AppContext = createContext(null);
@@ -29,7 +30,8 @@ const K_HISTORY = "halcyon.history.v1";
 const K_LAST = "halcyon.lastLocation.v1";
 
 export function AppProvider({ children }) {
-  const [settings, setSettings] = useLocalStorage(K_SETTINGS, DEFAULT_SETTINGS);
+  const [storedSettings, setSettings] = useLocalStorage(K_SETTINGS, DEFAULT_SETTINGS);
+  const settings = useMemo(() => ({ ...DEFAULT_SETTINGS, ...storedSettings }), [storedSettings]);
   const [favorites, setFavorites] = useLocalStorage(K_FAVS, []);
   const [history, setHistory] = useLocalStorage(K_HISTORY, []);
   const [selectedLocation, setSelectedLocation] = useLocalStorage(K_LAST, null);
@@ -54,7 +56,7 @@ export function AppProvider({ children }) {
   }, [settings.theme, settings.highContrast, settings.reduceMotion]);
 
   const updateSettings = useCallback(
-    (partial) => setSettings((prev) => ({ ...prev, ...partial })),
+    (partial) => setSettings((prev) => ({ ...DEFAULT_SETTINGS, ...prev, ...partial })),
     [setSettings],
   );
   const resetSettings = useCallback(() => setSettings(DEFAULT_SETTINGS), [setSettings]);
