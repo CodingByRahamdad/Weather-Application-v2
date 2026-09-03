@@ -45,7 +45,6 @@ src/
 
   hooks/
     useLocalStorage.js        # JSON-safe LS wrapper
-    useHashRoute.js           # tiny hash router
     useDebounced.js           # debounce a value
     useLocationSearch.js      # geocoding + abort + debounce
     useWeather.js             # forecast fetch + abort + refresh
@@ -70,8 +69,8 @@ src/
 
 ## Design decisions
 
-- **Routing.** The build is a single-file bundle (via `vite-plugin-singlefile`),
-  so we use a tiny custom hash router instead of a heavy framework.
+- **Routing.** The app uses React Router with browser URLs. Vercel rewrites
+  client-side routes to the single-file `index.html` entry point.
 - **State.** Settings, favorites, history and selected location live in one context;
   everything else is local component state or derived. Nothing is duplicated —
   Celsius vs Fahrenheit is a *derived view* over source Celsius.

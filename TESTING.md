@@ -83,7 +83,7 @@ can be tested without rendering a component or mocking the weather API.
   refresh, with no light/dark flash on reload.
 - Refresh the browser with corrupted `localStorage` JSON in one of the
   `halcyon.*` keys → app falls back to defaults instead of crashing.
-- Open a URL with `#/weather?lat=&lon=&name=` for a valid location → that
+- Open a URL with `/weather?lat=&lon=&name=` for a valid location → that
   location loads on first render.
 - Open a URL with an invalid/missing lat-lon → app falls back to the empty
   state instead of erroring.

@@ -69,6 +69,7 @@ function AppShell() {
               <Route path="/statistics" element={<StatisticsPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/" element={<Navigate to="/weather" />} />
+              <Route path="*" element={<Navigate to="/weather" replace />} />
             </Routes>
           </main>
 
