@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react";
-import { ArrowUpDown, Droplets } from "lucide-react";
+import { ArrowUpDown, Droplets, Filter } from "lucide-react";
 import { Card } from "../common/Card";
 import { WeatherIcon } from "./WeatherIcon";
 import { formatShortDate, formatShortDay, formatTemp } from "../../utils/format";
 import { useApp } from "../../context/AppContext";
 import { cn } from "../../utils/cn";
+import { isRainy } from "../../utils/weatherCodes";
 
 const RANGE_OPTIONS = [3, 5, 7];
 
@@ -12,9 +13,25 @@ export function DailyForecast({ bundle }) {
   const { settings } = useApp();
   const [range, setRange] = useState(settings.forecastRange);
   const [sort, setSort] = useState("date");
+  const [filter, setFilter] = useState("all");
 
   const days = useMemo(() => {
-    const copy = [...bundle.daily.slice(0, range)];
+    const copy = bundle.daily
+      .slice(0, range)
+      .filter((d) => {
+        switch (filter) {
+          case "rainy":
+            return isRainy(d.weatherCode) || (d.precipMm ?? 0) > 0.2;
+          case "windy":
+            return (d.windMaxKmh ?? 0) >= 30;
+          case "highTemp":
+            return d.tempMaxC > 25;
+          case "precipitation":
+            return (d.precipMm ?? 0) > 0;
+          default:
+            return true;
+        }
+      });
     switch (sort) {
       case "highTemp":
         copy.sort((a, b) => (b.tempMaxC ?? -Infinity) - (a.tempMaxC ?? -Infinity));
@@ -32,7 +49,7 @@ export function DailyForecast({ bundle }) {
         copy.sort((a, b) => a.date.localeCompare(b.date));
     }
     return copy;
-  }, [bundle.daily, range, sort]);
+  }, [bundle.daily, range, sort, filter]);
 
   return (
     <Card>
@@ -82,6 +99,21 @@ export function DailyForecast({ bundle }) {
               <option value="lowTemp">Lowest temp</option>
               <option value="precip">Most rain</option>
               <option value="wind">Windiest</option>
+            </select>
+          </label>
+          <label className="flex shrink-0 items-center gap-1 rounded-[12px] border border-[#E1E6ED]/45 bg-white/50 px-2 py-1.5 text-xs text-ink-500 dark:border-ink-600/30 dark:bg-ink-800/50 dark:text-ink-300">
+            <Filter className="h-3.5 w-3.5" />
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="bg-transparent text-xs outline-none"
+              aria-label="Filter forecast"
+            >
+              <option value="all">All days</option>
+              <option value="rainy">Rainy</option>
+              <option value="windy">Windy</option>
+              <option value="highTemp">High temp (&gt;25°)</option>
+              <option value="precipitation">Has precipitation</option>
             </select>
           </label>
         </div>
