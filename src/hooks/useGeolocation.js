@@ -28,6 +28,12 @@ export function useGeolocation() {
         return;
       }
 
+      if (!window.isSecureContext) {
+        const msg = "Location access requires HTTPS or a localhost address.";
+        setState({ loading: false, error: msg, coords: null });
+        reject(new Error(msg));
+        return;
+      }
       setState({ loading: true, error: null, coords: null });
       navigator.geolocation.getCurrentPosition(
         (pos) => {
@@ -42,6 +48,14 @@ export function useGeolocation() {
           resolve(coords);
         },
         (error) => {
+          if (import.meta.env.DEV) {
+            console.error("Geolocation failed", {
+              code: error.code,
+              message: error.message,
+              origin: window.location.origin,
+              secureContext: window.isSecureContext,
+            });
+          }
           const msg = geolocationErrorMessage(error);
           setState({ loading: false, error: msg, coords: null });
           reject(new Error(msg));
